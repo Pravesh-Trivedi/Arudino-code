@@ -1,0 +1,79 @@
+//for GSM 
+#include <SoftwareSerial.h>
+
+// Define the GSM module pins
+#define GSM_RX 7
+#define GSM_TX 8
+
+// Define the motor control pin
+#define MOTOR_PIN 9
+
+SoftwareSerial gsmSerial(GSM_RX, GSM_TX);
+
+void setup() {
+  // Initialize serial communication
+  Serial.begin(9600);
+  gsmSerial.begin(9600);
+
+  // Set the motor pin as an output
+  pinMode(MOTOR_PIN, OUTPUT);
+
+  // Wait for the GSM module to initialize
+  delay(2000);
+}
+
+void loop() {
+  if (gsmSerial.available() > 0) {
+    char command = gsmSerial.read();
+
+    // Check for incoming commands
+    if (command == '1') {
+      // Turn on the motor
+      digitalWrite(MOTOR_PIN, HIGH);
+      gsmSerial.println("Motor turned ON");
+    } else if (command == '0') {
+      // Turn off the motor
+      digitalWrite(MOTOR_PIN, LOW);
+      gsmSerial.println("Motor turned OFF");
+    }
+  }
+}
+
+
+//for ESP
+#include <SoftwareSerial.h>
+
+// Define the ESP module pins
+#define ESP_RX 2
+#define ESP_TX 3
+
+// Define the motor control pin
+#define MOTOR_PIN 5
+
+SoftwareSerial espSerial(ESP_RX, ESP_TX);
+
+void setup() {
+  // Initialize serial communication
+  Serial.begin(9600);
+  espSerial.begin(9600);
+
+  // Set the motor pin as an output
+  pinMode(MOTOR_PIN, OUTPUT);
+}
+
+void loop() {
+  if (espSerial.available() > 0) {
+    char command = espSerial.read();
+
+    // Check for incoming commands
+    if (command == '1') {
+      // Turn on the motor
+      digitalWrite(MOTOR_PIN, HIGH);
+      espSerial.println("Motor turned ON");
+    } else if (command == '0') {
+      // Turn off the motor
+      digitalWrite(MOTOR_PIN, LOW);
+      espSerial.println("Motor turned OFF");
+    }
+  }
+}
